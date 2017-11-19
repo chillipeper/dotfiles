@@ -1,8 +1,9 @@
 import logging
-from pathlib2 import Path
 import shutil
 import os
 import time
+
+from pathlib2 import Path
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
@@ -15,6 +16,7 @@ def get_dotfiles():
     ignore_files = ['.git', '.gitignore', '.ropeproject', 'install.py']
     return [x for x in p.iterdir()
             if x.is_file() and x.name not in ignore_files]
+
 
 def backup_existing_dotfile(dotfile):
     dotfile_in_home = Path(HOME_DIR + '/' + dotfile.name)
@@ -36,7 +38,6 @@ def backup_existing_dotfile(dotfile):
         logging.warning("%s does not exist", dotfile.name)
 
 
-
 def create_backup_directory():
     p = Path(BACKUP_DIR)
     if not p.exists():
@@ -47,8 +48,10 @@ def create_backup_directory():
     else:
         logging.info("Found %s in home directory", p.name)
 
+
 def link_dotfile():
     pass
+
 
 def main():
     create_backup_directory()
