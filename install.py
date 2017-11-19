@@ -18,24 +18,24 @@ def get_dotfiles():
             if x.is_file() and x.name not in ignore_files]
 
 
-def backup_existing_dotfile(dotfile):
-    dotfile_in_home = Path(HOME_DIR + '/' + dotfile.name)
+def backup_existing_dotfile(file_name):
+    dotfile_in_home = Path(HOME_DIR + '/' + file_name)
     dotile_backup = Path(
-        BACKUP_DIR + '/' + dotfile.name + '.' + str(int(time.time()))
+        BACKUP_DIR + '/' + file_name + '.' + str(int(time.time()))
     )
     if dotfile_in_home.exists():
         if dotfile_in_home.is_symlink():
-            logging.warning("Removing %s from %s", dotfile.name, HOME_DIR)
+            logging.warning("Removing %s from %s", file_name, HOME_DIR)
             dotfile_in_home.unlink()
         else:
             logging.info(
-                "Moving %s from %s to %s", dotfile.name, HOME_DIR, BACKUP_DIR
+                "Moving %s from %s to %s", file_name, HOME_DIR, BACKUP_DIR
             )
             shutil.move(
                 str(dotfile_in_home.absolute()), str(dotile_backup.absolute())
             )
     else:
-        logging.warning("%s does not exist", dotfile.name)
+        logging.warning("%s does not exist", file_name)
 
 
 def create_backup_directory():
@@ -56,7 +56,7 @@ def link_dotfile():
 def main():
     create_backup_directory()
     for dotfile in get_dotfiles():
-        backup_existing_dotfile(dotfile)
+        backup_existing_dotfile(dotfile.name)
         link_dotfile()
 
 
