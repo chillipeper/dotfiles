@@ -19,27 +19,27 @@ def get_dotfiles_in_repo():
             if x.is_file() and x.name not in ignore_files]
 
 
-def backup_existing_dotfile(dotfile_in_home):
+def backup(dotfile):
     dotile_backup = Path(
-        BACKUP_DIR + '/' + dotfile_in_home.name + '.' + str(int(time.time()))
+        BACKUP_DIR + '/' + dotfile.name + '.' + str(int(time.time()))
     )
-    if dotfile_in_home.is_file() and not dotfile_in_home.is_symlink():
+    if dotfile.is_file() and not dotfile.is_symlink():
         logging.info(
             "Copying %s from %s to %s",
-            dotfile_in_home.name, HOME_DIR, BACKUP_DIR
+            dotfile.name, HOME_DIR, BACKUP_DIR
         )
         shutil.copyfile(
-            dotfile_in_home.absolute(), dotile_backup.absolute()
+            dotfile.absolute(), dotile_backup.absolute()
         )
     else:
         logging.warning(
             "%s does not seem to be a regular file and will not be backed up",
-            dotfile_in_home.absolute()
+            dotfile.absolute()
         )
 
 
-def create_backup_directory():
-    p = Path(BACKUP_DIR)
+def create(directory):
+    p = Path(directory)
     if not p.exists():
         logging.warning(
             " %s does not exist in home directory. Creating it.", p.name
@@ -48,33 +48,36 @@ def create_backup_directory():
     else:
         logging.info("Found %s in home directory", p.name)
 
-def remove_dotfile_in_home(dotfile_in_home):
-    if dotfile_in_home.is_file():
+
+def remove(dotfile):
+    if dotfile.is_file():
         logging.warning(
-            "Removing %s from %s", dotfile_in_home.name, HOME_DIR
+            "Removing %s from %s", dotfile.name, HOME_DIR
         )
-        dotfile_in_home.unlink()
+        dotfile.unlink()
     else:
         logging.error(
             "%s is not a regular file, can not delete it",
-            dotfile_in_home.absolute()
+            dotfile.absolute()
         )
 
-def link_dotfile(dotfile_in_home, dotfile):
-    dotfile_in_home.symlink_to(dotfile.absolute())
+
+def link(target, source):
+    target.symlink_to(source.absolute())
     logging.info(
         "Linking %s in home directory to %s",
-        dotfile_in_home.absolute(), dotfile.absolute()
+        target.absolute(), source.absolute()
     )
 
+
 def main():
-    create_backup_directory()
+    create(BACKUP_DIR)
     for dotfile_in_repo in get_dotfiles_in_repo():
         dotfile_in_home = Path(HOME_DIR + '/' + dotfile_in_repo.name)
         if dotfile_in_home.exists():
-            backup_existing_dotfile(dotfile_in_home)
-            remove_dotfile_in_home(dotfile_in_home)
-        link_dotfile(dotfile_in_home, dotfile_in_repo)
+            backup(dotfile_in_home)
+            remove(dotfile_in_home)
+        link(dotfile_in_home, dotfile_in_repo)
 
 
 if __name__ == "__main__":
