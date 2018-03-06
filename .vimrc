@@ -51,8 +51,12 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Javascript
 Plug 'pangloss/vim-javascript'
 
-" Vim Ansible
-Plug 'pearofducks/ansible-vim'
+" Vim Bash Support
+Plug 'vim-scripts/bash-support.vim'
+
+" Markdown Mode
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 " End vim-plug
 call plug#end()
@@ -100,6 +104,11 @@ colorscheme solarized
 " Open splits to the right or below
 set splitbelow
 set splitright
+
+" --> Line numbers, folding
+" ============================================================================
+set number
+set foldcolumn=1
 
 " Smart way to move between windows
 noremap <C-j> <C-W>j
@@ -152,16 +161,31 @@ inoremap <leader>w <esc>:w!<cr>
 " Solarized colorscheme toggle
 call togglebg#map("<F6>")
 
+" -->  Fugitive
+" ============================================================================
+" Add the current working file to git
+nnoremap <leader>ga :Git add %<cr>
+inoremap <leader>ga <esc>:Git add %<cr>
+
+" Git status
+nnoremap <leader>gs :Gstatus<cr>
+inoremap <leader>gs <esc>:Gstatus<cr>
+
+" Git diff current file
+nnoremap <leader>gf :Gdiff<cr>
+inoremap <leader>gf <esc>:Gdiff<cr>
+
 " --> Python Mode
 " ============================================================================
 " Default code checkers
 let g:pymode_lint_checkers = ['pylint', 'pyflakes', 'pep8', 'mccabe']
 
 " Do not do folding
-let g:pymode_folding = 0
+let g:pymode_folding = 1
 
 " Do not open window error
 let g:pymode_lint_cwindow = 0
+"
 
 " --> Airline
 " ============================================================================
