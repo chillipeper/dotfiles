@@ -58,6 +58,12 @@ Plug 'vim-scripts/bash-support.vim'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
+" Vim Ansible
+Plug 'pearofducks/ansible-vim'
+
+" Markdown Preview
+Plug 'iamcco/markdown-preview.vim'
+
 " End vim-plug
 call plug#end()
 
@@ -80,6 +86,12 @@ filetype indent on
 
 " Set map leader
 let mapleader=","
+
+" Open .vimrc on a split
+nnoremap <leader>ev :edit $MYVIMRC<cr>
+
+" Source .vimrc from vim
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " --> Files, backups and undo
 " ============================================================================
@@ -105,8 +117,7 @@ colorscheme solarized
 set splitbelow
 set splitright
 
-" --> Line numbers, folding
-" ============================================================================
+" Line numbers, folding
 set number
 set foldcolumn=1
 
@@ -128,11 +139,6 @@ noremap <C-S-Right> :tabnext<CR>
 inoremap <C-S-Left> <esc>:tabprevious<CR>
 inoremap <C-S-Right> <esc>:tabnext<CR>
 
-" Open .vimrc on a split
-nnoremap <leader>ev :edit $MYVIMRC<cr>
-
-" Source .vimrc from vim
-nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " --> Key mappings
 " ============================================================================
@@ -175,12 +181,16 @@ inoremap <leader>gs <esc>:Gstatus<cr>
 nnoremap <leader>gf :Gdiff<cr>
 inoremap <leader>gf <esc>:Gdiff<cr>
 
+" Git push
+nnoremap <leader>gp :Gpush<cr>
+inoremap <leader>gp <esc>:Gpush<cr>
+
 " --> Python Mode
 " ============================================================================
 " Default code checkers
 let g:pymode_lint_checkers = ['pylint', 'pyflakes', 'pep8', 'mccabe']
 
-" Do not do folding
+" Enable folding
 let g:pymode_folding = 1
 
 " Do not open window error
@@ -210,3 +220,4 @@ let g:airline_symbols.whitespace = 'Ξ'
 " ============================================================================
 " noremap <F5> :NERDTreeToggle<CR>:vsplit<CR>:q!<CR>
 noremap <F5> :NERDTreeToggle<CR>
+
