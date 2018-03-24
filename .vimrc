@@ -220,4 +220,3 @@ let g:airline_symbols.whitespace = 'Ξ'
 " ============================================================================
 " noremap <F5> :NERDTreeToggle<CR>:vsplit<CR>:q!<CR>
 noremap <F5> :NERDTreeToggle<CR>
-
