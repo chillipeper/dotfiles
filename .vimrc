@@ -24,11 +24,11 @@ endif
 " Begin vim-plug
 call plug#begin('~/.vim/plugged')
 
-" Python Mode
-Plug 'python-mode/python-mode'
+" You Complete Me
+Plug 'Valloric/YouCompleteMe'
 
-" Nodejs Mode
-" Plug 'moll/vim-node'
+" Ale
+Plug 'w0rp/ale'
 
 " Git Integration
 Plug 'tpope/vim-fugitive'
@@ -185,17 +185,10 @@ inoremap <leader>gf <esc>:Gdiff<cr>
 nnoremap <leader>gp :Gpush<cr>
 inoremap <leader>gp <esc>:Gpush<cr>
 
-" --> Python Mode
+" --> Ale
 " ============================================================================
-" Default code checkers
-let g:pymode_lint_checkers = ['pylint', 'pyflakes', 'pep8', 'mccabe']
-
-" Enable folding
-let g:pymode_folding = 1
-
-" Do not open window error
-let g:pymode_lint_cwindow = 0
-"
+" Disable completition
+let g:ale_completion_enabled = 0
 
 " --> Airline
 " ============================================================================
