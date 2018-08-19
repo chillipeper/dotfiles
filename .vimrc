@@ -24,6 +24,9 @@ endif
 " Begin vim-plug
 call plug#begin('~/.vim/plugged')
 
+" pymode
+Plug 'python-mode/python-mode'
+
 " You Complete Me
 Plug 'Valloric/YouCompleteMe'
 
@@ -87,11 +90,6 @@ filetype indent on
 " Set map leader
 let mapleader=","
 
-" Open .vimrc on a split
-nnoremap <leader>ev :edit $MYVIMRC<cr>
-
-" Source .vimrc from vim
-nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " --> Files, backups and undo
 " ============================================================================
@@ -105,6 +103,11 @@ set noswapfile
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
+" Highlit searches
+set hlsearch
+
+" Turn off hlsearch and map reset terminal
+nnoremap <silent> <F2> :<C-u>nohlsearch<CR><C-l>
 
 " Enable Solarized colorcheme
 syntax enable
@@ -142,6 +145,12 @@ inoremap <C-S-Right> <esc>:tabnext<CR>
 
 " --> Key mappings
 " ============================================================================
+" Open .vimrc on a split
+nnoremap <leader>ev :edit $MYVIMRC<cr>
+
+" Source .vimrc from vim
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
 " Delete current line and paste it below the current one
 nnoremap <leader>- ddp
 
@@ -189,6 +198,29 @@ inoremap <leader>gp <esc>:Gpush<cr>
 " ============================================================================
 " Disable completition
 let g:ale_completion_enabled = 0
+
+" Python fixers
+let g:ale_fixers = {
+\	'python': ['autopep8', 'isort', 'remove_trailing_lines', 'trim_whitespace'],
+\}
+
+" --> Python Mode
+" ============================================================================
+" Disable pymode-lint
+let g:pymode_lint = 0
+
+" Enable pymode-virtualenv
+let g:pymode_virtualenv = 1
+
+" Disable pymode-completetion
+let g:pymode_rope_completion = 0
+
+" Do not open window error
+let g:pymode_lint_cwindow = 0
+
+" Enable folding
+let g:pymode_folding = 1
+
 
 " --> Airline
 " ============================================================================
