@@ -1,0 +1,10 @@
+#!/usr/local/bin/bash
+SESSION=$(basename $PWD)
+
+tmux -2 new-session -d -s $SESSION
+tmux rename-window -t $SESSION:0 vim
+tmux send-keys vim 'Enter'
+tmux split-window -h
+tmux split-window -v
+tmux -2 attach -t $SESSION
+
