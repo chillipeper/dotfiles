@@ -10,14 +10,8 @@ logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 HOME_DIR = os.environ['HOME']
 BACKUP_DIR = HOME_DIR + '/.backup_dotfiles'
-
-
-def get_dotfiles_in_repo():
-    p = Path(sys.argv[0])
-    ignore_files = ['.git', '.gitignore', '.ropeproject', 'install.py',
-                    'Pipfile', 'Pipfile.lock', 'README.md']
-    return [x for x in p.parent.iterdir()
-            if x.is_file() and x.name not in ignore_files]
+IGNORE_FILES = ['.git', '.gitignore', '.ropeproject', 'install.py',
+                'Pipfile', 'Pipfile.lock', 'README.md']
 
 
 def backup(dotfile):
@@ -43,7 +37,7 @@ def create(directory):
     p = Path(directory)
     if not p.exists():
         logging.info(
-            " %s does not exist in home directory. Creating it.", p.name
+            " %s does not exist. Creating it.", p
         )
         p.mkdir()
     else:
@@ -53,7 +47,7 @@ def create(directory):
 def remove(dotfile):
     if dotfile.is_file():
         logging.info(
-            "Removing %s from %s", dotfile.name, HOME_DIR
+            "Removing %s from %s", dotfile.name, dotfile.parent
         )
         dotfile.unlink()
     else:
@@ -71,13 +65,30 @@ def link(target, source):
     )
 
 
+def get_dotfiles_in_repo(path, dotfiles_in_repo=[]):
+    p = Path(path)
+    for dotfile in p.iterdir():
+        if dotfile.name not in IGNORE_FILES:
+            if dotfile.is_file():
+                dotfiles_in_repo.append(dotfile)
+            elif dotfile.is_dir():
+                get_dotfiles_in_repo(dotfile)
+    return dotfiles_in_repo
+
+
 def main():
     create(BACKUP_DIR)
-    for dotfile_in_repo in get_dotfiles_in_repo():
-        dotfile_in_home = Path(HOME_DIR + '/' + dotfile_in_repo.name)
+    p = Path(sys.argv[0])
+    repo_absolute_path = p.parent.absolute()
+    for dotfile_in_repo in get_dotfiles_in_repo(repo_absolute_path):
+        dotfile_in_home = Path(
+            str(dotfile_in_repo).replace(str(repo_absolute_path), HOME_DIR)
+        )
         if dotfile_in_home.exists():
             backup(dotfile_in_home)
             remove(dotfile_in_home)
+        elif not dotfile_in_home.parent.exists():
+            create(dotfile_in_home.parent)
         link(dotfile_in_home, dotfile_in_repo)
 
 
