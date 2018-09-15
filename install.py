@@ -4,7 +4,7 @@ import os
 import time
 import sys
 
-from pathlib2 import Path
+from pathlib import Path
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
@@ -14,7 +14,8 @@ BACKUP_DIR = HOME_DIR + '/.backup_dotfiles'
 
 def get_dotfiles_in_repo():
     p = Path(sys.argv[0])
-    ignore_files = ['.git', '.gitignore', '.ropeproject', 'install.py']
+    ignore_files = ['.git', '.gitignore', '.ropeproject', 'install.py',
+                    'Pipfile', 'Pipfile.lock', 'README.md']
     return [x for x in p.parent.iterdir()
             if x.is_file() and x.name not in ignore_files]
 
@@ -32,7 +33,7 @@ def backup(dotfile):
             dotfile.absolute(), dotile_backup.absolute()
         )
     else:
-        logging.warning(
+        logging.info(
             "%s does not seem to be a regular file and will not be backed up",
             dotfile.absolute()
         )
@@ -41,7 +42,7 @@ def backup(dotfile):
 def create(directory):
     p = Path(directory)
     if not p.exists():
-        logging.warning(
+        logging.info(
             " %s does not exist in home directory. Creating it.", p.name
         )
         p.mkdir()
@@ -51,7 +52,7 @@ def create(directory):
 
 def remove(dotfile):
     if dotfile.is_file():
-        logging.warning(
+        logging.info(
             "Removing %s from %s", dotfile.name, HOME_DIR
         )
         dotfile.unlink()
