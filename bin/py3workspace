@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. workspace 
+
+if [ "$SESSION_PRESENT" = false ]; then
+	tmux select-window -t :2
+	tmux send-keys pipenv 'Space' shell 'Enter'
+	sleep 1
+	tmux send-keys ipython 'Enter'
+
+
+	tmux select-window -t :1
+	tmux send-keys pipenv 'Space' shell 'Enter'
+	sleep 1
+	tmux send-keys vim 'Enter'
+fi
+
+tmux -2 attach -t $SESSION

@@ -1,10 +1,17 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 SESSION=$(basename $PWD)
 
-tmux -2 new-session -d -s $SESSION
-tmux rename-window -t $SESSION:0 vim
-tmux send-keys vim 'Enter'
-tmux split-window -h
-tmux split-window -v
-tmux -2 attach -t $SESSION
+EXISTING_SESSIONS=$(tmux list-sessions -F '#S')
+SESSION_PRESENT=false
 
+for s in $EXISTING_SESSIONS; do
+    if [ "$s" == "$SESSION" ]; then
+        SESSION_PRESENT=true
+    fi
+done
+
+if [ "$SESSION_PRESENT" = false ]; then
+    tmux -2 new-session -d -s $SESSION -n vim
+    tmux new-window -t $SESSION -a -n terminal
+    tmux split-window -v
+fi
