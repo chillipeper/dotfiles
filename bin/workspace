@@ -14,4 +14,6 @@ if [ "$SESSION_PRESENT" = false ]; then
     tmux -2 new-session -d -s $SESSION -n vim
     tmux new-window -t $SESSION -a -n terminal
     tmux split-window -v
+    tmux new-window -t $SESSION -a -n ssh_sessions
+    tmux split-window -v
 fi
