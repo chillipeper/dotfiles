@@ -37,6 +37,10 @@ Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
+" FZF finder
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
 " Nerd Tree -- Load on demmand
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
@@ -47,9 +51,6 @@ Plug 'vim-airline/vim-airline-themes'
 " Colorschemes
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-scripts/peaksea'
-
-" Control P finder
-Plug 'ctrlpvim/ctrlp.vim'
 
 " Javascript
 Plug 'pangloss/vim-javascript'
@@ -125,10 +126,10 @@ set number
 set foldcolumn=1
 
 " Smart way to move between windows
-noremap <C-j> <C-W>j
-noremap <C-k> <C-W>k
-noremap <C-h> <C-W>h
-noremap <C-l> <C-W>l
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
 
 inoremap <C-j> <esc><C-W>j
 inoremap <C-k> <esc><C-W>k
@@ -136,8 +137,8 @@ inoremap <C-h> <esc><C-W>h
 inoremap <C-l> <esc><C-W>l
 
 " Smart way to move between tabs
-noremap <C-S-Left> :tabprevious<CR>
-noremap <C-S-Right> :tabnext<CR>
+nnoremap <C-S-Left> :tabprevious<CR>
+nnoremap <C-S-Right> :tabnext<CR>
 
 inoremap <C-S-Left> <esc>:tabprevious<CR>
 inoremap <C-S-Right> <esc>:tabnext<CR>
@@ -221,6 +222,13 @@ let g:pymode_lint_cwindow = 0
 " Enable folding
 let g:pymode_folding = 1
 
+" --> FZF Finder
+" ============================================================================
+" Map search like ctrlp search
+nnoremap <C-p> :FZF<cr>
+inoremap <C-p> <esc>:FZF<cr>
+
+let g:fzf_layout = { 'down': '~20%' }
 
 " --> Airline
 " ============================================================================
