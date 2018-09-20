@@ -205,6 +205,11 @@ let g:ale_fixers = {
 \	'python': ['autopep8', 'isort', 'remove_trailing_lines', 'trim_whitespace'],
 \}
 
+" --> YCM
+" ============================================================================
+" Enable python interpreter
+let g:ycm_python_binary_path = 'python'
+
 " --> Python Mode
 " ============================================================================
 " Disable pymode-lint
