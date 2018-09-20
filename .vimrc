@@ -210,6 +210,14 @@ let g:ale_fixers = {
 " Enable python interpreter
 let g:ycm_python_binary_path = 'python'
 
+" GoTo Definition
+nnoremap <leader>gt :YcmCompleter GoTo<cr>
+inoremap <leader>gt <esc>:YcmCompleter GoTo<cr>
+
+" GoTo Reference
+nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
+inoremap <leader>gr <esc>:YcmCompleter GoToReferences<cr>
+
 " --> Python Mode
 " ============================================================================
 " Disable pymode-lint
