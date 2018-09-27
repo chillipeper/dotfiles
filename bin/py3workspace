@@ -3,16 +3,17 @@
 . workspace 
 
 if [ "$SESSION_PRESENT" = false ]; then
-	tmux select-window -t terminal
-	tmux select-pane -t :.1
-	tmux send-keys pipenv 'Space' shell 'Enter'
-	tmux send-keys ipython 'Enter'
+	tmux send-keys -t vim pipenv 'Space' shell 'Enter'
+	tmux send-keys -t terminal.1 pipenv 'Space' shell 'Enter'
+	sleep 1
+	tmux send-keys -t terminal.1 ipython 'Enter'
+	tmux send-keys -t vim vim 'Enter'
+
 
 	tmux select-window -t vim
-	tmux send-keys pipenv 'Space' shell 'Enter'
-	tmux send-keys vim 'Enter'
 fi
 
+# Set name of tab in iTerm2 for base directory
 echo -ne "\033];${PWD##*/}\007";
 
 tmux -2 attach -t $SESSION
