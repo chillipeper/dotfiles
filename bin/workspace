@@ -1,4 +1,5 @@
 #!/bin/bash
+
 SESSION=$(basename $PWD)
 
 EXISTING_SESSIONS=$(tmux list-sessions -F '#S')
@@ -17,3 +18,7 @@ if [ "$SESSION_PRESENT" = false ]; then
     tmux new-window -t $SESSION -a -n ssh_sessions
     tmux split-window -v
 fi
+
+# Set name of tab in iTerm2 for base directory
+echo -ne "\033];${PWD##*/}\007";
+
