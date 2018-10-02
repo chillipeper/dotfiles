@@ -1,2 +1,3 @@
 .ropeproject/
 .pyre/
+.mypy_cache/
