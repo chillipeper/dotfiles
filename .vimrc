@@ -126,8 +126,8 @@ set number
 set foldcolumn=1
 
 " Smart way to move between windows
-nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
+nnoremap <C-j> <C-W>j
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 
@@ -136,13 +136,9 @@ inoremap <C-k> <esc><C-W>k
 inoremap <C-h> <esc><C-W>h
 inoremap <C-l> <esc><C-W>l
 
-" Smart way to move between tabs
-nnoremap <C-S-Left> :tabprevious<CR>
-nnoremap <C-S-Right> :tabnext<CR>
-
-inoremap <C-S-Left> <esc>:tabprevious<CR>
-inoremap <C-S-Right> <esc>:tabnext<CR>
-
+" Create a new tab
+nnoremap <leader>tt :tabnew<CR>
+inoremap <leader>tt <esc>:tabnew<CR>
 
 " --> Key mappings
 " ============================================================================
@@ -202,13 +198,25 @@ let g:ale_completion_enabled = 0
 
 " Python fixers
 let g:ale_fixers = {
-\	'python': ['autopep8', 'isort', 'remove_trailing_lines', 'trim_whitespace'],
+\  	'*': ['remove_trailing_lines', 'trim_whitespace'], 
+\	'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'black', 'yapf']
 \}
+
+let g:ale_linters = {
+\	'python': ['flake8', 'mypy', 'prospector', 'pycodestyle', 'pyflakes', 'pylint', 'pyls', 'pyre', 'vulture']
+\}
+
+" Enable python interpreter if VIRTUAL_ENV exists
+if $VIRTUAL_ENV
+	let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
+endif
 
 " --> YCM
 " ============================================================================
-" Enable python interpreter
-let g:ycm_python_binary_path = 'python'
+" Enable python interpreter if VIRTUAL_ENV exists
+if $VIRTUAL_ENV
+	let g:ycm_python_interpreter_path = $VIRTUAL_ENV . "/bin/python"
+endif
 
 " GoTo Definition
 nnoremap <leader>gt :YcmCompleter GoTo<cr>
