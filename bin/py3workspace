@@ -1,19 +1,86 @@
 #!/bin/bash
 
-. workspace 
-
-if [ "$SESSION_PRESENT" = false ]; then
-	tmux send-keys -t vim pipenv 'Space' shell 'Enter'
-	tmux send-keys -t terminal.1 pipenv 'Space' shell 'Enter'
-	sleep 1
-	tmux send-keys -t terminal.1 ipython 'Enter'
-	tmux send-keys -t vim vim 'Enter'
+BIN_DIR=$(dirname $(echo $0))
+VIRTUAL_ENV=$(pipenv --venv)
 
 
-	tmux select-window -t vim
-fi
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME: create_tmux_session
+#   DESCRIPTION: Create or load a tmux session if its a sym link to the repo
+#    PARAMETERS: None
+#       RETURNS: SESSION_PRESENT
+#-------------------------------------------------------------------------------
+create_tmux_session ()
+{
+	if [ -h "$BIN_DIR/create_tmux_session" ]; then
+		. $BIN_DIR/create_tmux_session
+	else
+		echo "Script can't continute, could not create or load tmux session"
+		exit 1
+	fi
+}	# ----------  end of function create_tmux_session  ----------
 
-# Set name of tab in iTerm2 for base directory
-echo -ne "\033];${PWD##*/}\007";
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  load_pip_file
+#   DESCRIPTION:  copy pip file to working dir if its a symbolic link to the repo
+#    PARAMETERS:  None
+#       RETURNS:  None
+#-------------------------------------------------------------------------------
+load_pip_file ()
+{
+	if [ -h "$BIN_DIR/py3-dev.pipfile" ]; then
+		cp $BIN_DIR/py3-dev.pipfile $PWD/PipFile
+	else
+		echo "Script can't continute, could not find py3 development pipfile"
+		exit 1
+	fi
+	
+}	# ----------  end of function load_pip_file  ----------
 
-tmux -2 attach -t $SESSION
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME: install_virtual_env
+#   DESCRIPTION: Install virtual env if not pressent
+#    PARAMETERS: None
+#       RETURNS: None 
+#-------------------------------------------------------------------------------
+
+install_virtual_env ()
+{
+	if [ -z "$VIRTUAL_ENV" ]; then
+		if [ ! -f "$PWD/PipFile" ]; then
+			load_pip_file
+		fi
+		pipenv install --dev
+	fi
+}	# ----------  end of function install_virtual_env  ----------
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  init_tmux_workspace
+#   DESCRIPTION:  Initialize workspace in tmux
+#    PARAMETERS:  None
+#       RETURNS:  None
+#-------------------------------------------------------------------------------
+init_tmux_workspace ()
+{
+	if [ "$SESSION_PRESENT" = false ]; then
+		tmux send-keys -t vim pipenv 'Space' shell 'Enter'
+		tmux send-keys -t terminal.1 pipenv 'Space' shell 'Enter'
+		sleep 1
+		tmux send-keys -t terminal.1 ipython 'Enter'
+		tmux send-keys -t vim vim 'Enter'
+
+		tmux select-window -t vim
+	fi
+
+	tmux -2 attach -t $SESSION
+}	# ----------  end of function init_workspace  ----------
+
+main ()
+{
+	create_tmux_session
+	install_virtual_env
+	init_tmux_workspace
+}	# ----------  end of function main  ----------
+
+main
