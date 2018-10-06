@@ -24,8 +24,11 @@ endif
 " Begin vim-plug
 call plug#begin('~/.vim/plugged')
 
-" pymode
-Plug 'python-mode/python-mode'
+" Python Syntax
+Plug 'vim-python/python-syntax'
+
+" Simple Folding
+Plug 'tmhedberg/SimpylFold'
 
 " You Complete Me
 Plug 'Valloric/YouCompleteMe'
@@ -206,14 +209,21 @@ let g:ale_fixers = {
 \	'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'black', 'yapf']
 \}
 
+" Python linters which are necessary and work with large files
 let g:ale_linters = {
-\	'python': ['flake8', 'mypy', 'prospector', 'pycodestyle', 'pyflakes', 'pylint', 'pyls', 'pyre', 'vulture']
+\	'python': ['mypy', 'pycodestyle', 'pyflakes', 'pylint']
 \}
+
 
 " Enable python interpreter if VIRTUAL_ENV exists
 if $VIRTUAL_ENV
 	let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
 endif
+
+" --> SimpylFold
+" ============================================================================
+" Enable plugin
+let g:SimpylFold_docstring_preview = 1
 
 " --> YCM
 " ============================================================================
@@ -230,22 +240,15 @@ inoremap <leader>gt <esc>:YcmCompleter GoTo<cr>
 nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
 inoremap <leader>gr <esc>:YcmCompleter GoToReferences<cr>
 
-" --> Python Mode
+" --> Python Syntax
 " ============================================================================
-" Disable pymode-lint
-let g:pymode_lint = 0
+" Enable plugin
+let g:python_highlight_all = 1
 
-" Enable pymode-virtualenv
-let g:pymode_virtualenv = 1
-
-" Disable pymode-completetion
-let g:pymode_rope_completion = 0
-
-" Do not open window error
-let g:pymode_lint_cwindow = 0
-
-" Enable folding
-let g:pymode_folding = 1
+" --> Vim Gutter
+" ============================================================================
+" Enable python YCMinterpreter if VIRTUAL_ENV exists
+let g:gitgutter_max_signs = 1500
 
 " --> FZF Finder
 " ============================================================================
