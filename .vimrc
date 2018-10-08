@@ -189,8 +189,8 @@ nnoremap <leader>gp :Gpush<cr>
 inoremap <leader>gp <esc>:Gpush<cr>
 
 " Git commit -m 
-nnoremap <leader>gc :Gcommit -m 
-inoremap <leader>gc <esc>:Gcommit -m 
+nnoremap <leader>gc :Gcommit -m "
+inoremap <leader>gc <esc>:Gcommit -m "
 
 " --> Ale
 " ============================================================================
