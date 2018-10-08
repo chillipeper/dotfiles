@@ -24,14 +24,8 @@ endif
 " Begin vim-plug
 call plug#begin('~/.vim/plugged')
 
-" Python Syntax
-Plug 'vim-python/python-syntax'
-
-" Simple Folding
-Plug 'tmhedberg/SimpylFold'
-
 " You Complete Me
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 
 " Ale
 Plug 'w0rp/ale'
@@ -201,7 +195,7 @@ inoremap <leader>gc <esc>:Gcommit -m
 " --> Ale
 " ============================================================================
 " Disable completition
-let g:ale_completion_enabled = 0
+let g:ale_completion_enabled = 1
 
 " Python fixers
 let g:ale_fixers = {
@@ -210,45 +204,37 @@ let g:ale_fixers = {
 \}
 
 " Python linters which are necessary and work with large files
+"let g:ale_linters = {
+"\	'python': ['mypy', 'pycodestyle', 'pyflakes', 'pylint']
+"\}
 let g:ale_linters = {
-\	'python': ['mypy', 'pycodestyle', 'pyflakes', 'pylint']
+\	'python': ['pyls']
 \}
-
 
 " Enable python interpreter if VIRTUAL_ENV exists
 if $VIRTUAL_ENV
 	let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
 endif
 
-" --> SimpylFold
-" ============================================================================
-" Enable plugin
-let g:SimpylFold_docstring_preview = 1
-
 " --> YCM
 " ============================================================================
 " Enable python interpreter if VIRTUAL_ENV exists
-if $VIRTUAL_ENV
-	let g:ycm_python_interpreter_path = $VIRTUAL_ENV . "/bin/python"
-endif
-
-" GoTo Definition
-nnoremap <leader>gt :YcmCompleter GoTo<cr>
-inoremap <leader>gt <esc>:YcmCompleter GoTo<cr>
-
-" GoTo Reference
-nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
-inoremap <leader>gr <esc>:YcmCompleter GoToReferences<cr>
-
-" --> Python Syntax
-" ============================================================================
-" Enable plugin
-let g:python_highlight_all = 1
+"if $VIRTUAL_ENV
+"	let g:ycm_python_interpreter_path = $VIRTUAL_ENV . "/bin/python"
+"endif
+"
+"" GoTo Definition
+"nnoremap <leader>gt :YcmCompleter GoTo<cr>
+"inoremap <leader>gt <esc>:YcmCompleter GoTo<cr>
+"
+"" GoTo Reference
+"nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
+"inoremap <leader>gr <esc>:YcmCompleter GoToReferences<cr>
 
 " --> Vim Gutter
 " ============================================================================
 " Enable python YCMinterpreter if VIRTUAL_ENV exists
-let g:gitgutter_max_signs = 1500
+"let g:gitgutter_max_signs = 5000
 
 " --> FZF Finder
 " ============================================================================
