@@ -26,9 +26,6 @@ endif
 " Begin vim-plug
 call plug#begin('~/.vim/plugged')
 
-" You Complete Me
-"Plug 'Valloric/YouCompleteMe'
-
 " pymode
 Plug 'python-mode/python-mode'
 
@@ -248,23 +245,6 @@ let g:pymode_trim_whitespaces = 0
 " Disable pymode-virtualenv
 let g:pymode_virtualenv = 0
 
-"
-" --> YCM
-" ============================================================================
-" Enable python interpreter if VIRTUAL_ENV exists
-"if $VIRTUAL_ENV
-"	let g:ycm_python_interpreter_path = $VIRTUAL_ENV . "/bin/python"
-"endif
-"endif
-"
-"" GoTo Definition
-"nnoremap <leader>gt :YcmCompleter GoTo<cr>
-"inoremap <leader>gt <esc>:YcmCompleter GoTo<cr>
-"
-"" GoTo Reference
-"nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
-"inoremap <leader>gr <esc>:YcmCompleter GoToReferences<cr>
-
 " --> Vim Gutter
 " ============================================================================
 " Enable python YCMinterpreter if VIRTUAL_ENV exists
@@ -296,8 +276,3 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
-
-" --> NERDTree
-" ============================================================================
-" noremap <F5> :NERDTreeToggle<CR>:vsplit<CR>:q!<CR>
-noremap <F5> :NERDTreeToggle<CR>
