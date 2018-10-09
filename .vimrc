@@ -1,7 +1,8 @@
 " chillipeper
 " version: 0.1
 "
-" --> Vimrc automatic initialization
+" ============================================================================
+" Vimrc automatic initialization {{{
 " ============================================================================
 
 " Vim-plug package manager automatic installation
@@ -18,6 +19,7 @@ if vim_plug_just_installed
     :execute 'source '.fnameescape(vim_plug_path)
 endif
 
+" }}}
 
 " --> Begin vim-plug package manager
 " ============================================================================
@@ -26,6 +28,9 @@ call plug#begin('~/.vim/plugged')
 
 " You Complete Me
 "Plug 'Valloric/YouCompleteMe'
+
+" pymode
+Plug 'python-mode/python-mode'
 
 " Ale
 Plug 'w0rp/ale'
@@ -48,9 +53,6 @@ Plug 'vim-airline/vim-airline-themes'
 " Colorschemes
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-scripts/peaksea'
-
-" Javascript
-Plug 'pangloss/vim-javascript'
 
 " Vim Bash Support
 Plug 'vim-scripts/bash-support.vim'
@@ -216,11 +218,43 @@ if $VIRTUAL_ENV
 	let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
 endif
 
+" Map ALEFix
+nnoremap <leader>af :ALEFix<cr>
+inoremap <leader>af <esc>:ALEFix<cr>
+
+" --> Python Mode
+" ============================================================================
+" Enable syntax highlight
+let g:pymode_syntax = 1
+
+" Enable indentation pep8
+let g:pymode_indent = 1
+
+" Enable folding
+let g:pymode_folding = 1
+
+" Disable pymode-lint
+let g:pymode_lint = 0
+
+" Disable vim-motion
+let g:pymode_motion = 0
+
+" Disable rope completely
+let g:pymode_rope = 0
+
+" Disable trim whitespaces, already working with ALE
+let g:pymode_trim_whitespaces = 0
+
+" Disable pymode-virtualenv
+let g:pymode_virtualenv = 0
+
+"
 " --> YCM
 " ============================================================================
 " Enable python interpreter if VIRTUAL_ENV exists
 "if $VIRTUAL_ENV
 "	let g:ycm_python_interpreter_path = $VIRTUAL_ENV . "/bin/python"
+"endif
 "endif
 "
 "" GoTo Definition
