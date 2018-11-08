@@ -29,7 +29,7 @@ create_tmux_session ()
 load_pip_file ()
 {
 	if [ -h "$BIN_DIR/py3-dev.pipfile" ]; then
-		cp $BIN_DIR/py3-dev.pipfile $PWD/PipFile
+		cp $BIN_DIR/py3-dev.pipfile $PWD/Pipfile
 	else
 		echo "Script can't continute, could not find py3 development pipfile"
 		exit 1
