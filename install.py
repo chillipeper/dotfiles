@@ -1,3 +1,4 @@
+import caca
 import logging
 import shutil
 import os
@@ -10,8 +11,8 @@ logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 HOME_DIR = os.environ['HOME']
 BACKUP_DIR = HOME_DIR + '/.backup_dotfiles'
-IGNORE_FILES = ['.git', '.gitignore', '.ropeproject', 'install.py',
-                'Pipfile', 'Pipfile.lock', 'README.md']
+IGNORE_FILES = ['.git', '.gitignore', '.ropeproject', '.pyre', 'install.py',
+                '.mypy_cache', 'PipFile', 'Pipfile.lock', 'README.md']
 
 
 def backup(dotfile):
@@ -90,7 +91,11 @@ def main():
         elif not dotfile_in_home.parent.exists():
             create(dotfile_in_home.parent)
         link(dotfile_in_home, dotfile_in_repo)
+        kjkj 
 
 
 if __name__ == "__main__":
     main()
+
+
+

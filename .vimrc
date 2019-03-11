@@ -80,6 +80,10 @@ endif
 " No vi-compatible
 set nocompatible
 
+" yank to and paste the selection without prepending "* to commands
+" in other words copy to the clipboard
+set clipboard=unnamed
+
 " Allow plugins by file type
 filetype plugin on
 filetype indent on
@@ -134,7 +138,6 @@ inoremap <C-l> <esc><C-W>l
 
 " Create a new tab
 nnoremap <leader>tt :tabnew<CR>
-inoremap <leader>tt <esc>:tabnew<CR>
 
 " --> Key mappings
 " ============================================================================
@@ -193,7 +196,7 @@ inoremap <leader>gc <esc>:Gcommit -m "
 
 " --> Ale
 " ============================================================================
-" Disable completition
+" Enable completition
 let g:ale_completion_enabled = 1
 
 " Python fixers
@@ -207,13 +210,14 @@ let g:ale_fixers = {
 "\	'python': ['mypy', 'pycodestyle', 'pyflakes', 'pylint']
 "\}
 let g:ale_linters = {
-\	'python': ['pyls']
+\	'python': ['pylint', 'flake8', 'pyflakes']
 \}
 
+let g:ale_python_pyls_auto_pipenv = 1
 " Enable python interpreter if VIRTUAL_ENV exists
-if $VIRTUAL_ENV
-	let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
-endif
+"if $VIRTUAL_ENV
+"	let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
+"endif
 
 " Map ALEFix
 nnoremap <leader>af :ALEFix<cr>
