@@ -1,4 +1,3 @@
-import caca
 import logging
 import shutil
 import os
@@ -91,11 +90,7 @@ def main():
         elif not dotfile_in_home.parent.exists():
             create(dotfile_in_home.parent)
         link(dotfile_in_home, dotfile_in_repo)
-        kjkj 
 
 
 if __name__ == "__main__":
     main()
-
-
-
