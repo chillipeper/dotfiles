@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+[dev-packages]
+pylint = "*"
+flake8 = "*"
+mypy = "*"
+pycodestyle = "*"
+pyflakes = "*"
+pyre-check = "*"
+vulture = "*"
+ipython = "*"
+pytest = "*"
+autopep8 = "*"
+isort = "*"
+black = "*"
+yapf = "*"
+python-language-server = "*"
+
+[requires]
+python_version = "3.7.2"
+
+[pipenv]
+allow_prereleases = true
