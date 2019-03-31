@@ -214,10 +214,6 @@ let g:ale_linters = {
 \}
 
 let g:ale_python_pyls_auto_pipenv = 1
-" Enable python interpreter if VIRTUAL_ENV exists
-"if $VIRTUAL_ENV
-"	let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
-"endif
 
 " Map ALEFix
 nnoremap <leader>af :ALEFix<cr>
