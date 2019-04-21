@@ -202,13 +202,6 @@ let g:ale_fixers = {
 \	'python': ['isort', 'add_blank_lines_for_python_control_statements', 'yapf']
 \}
 
-" 
-" 'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'black', 'yapf']
-"\	'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'yapf']
-" Python linters which are necessary and work with large files
-"let g:ale_linters = {
-"\	'python': ['mypy', 'pycodestyle', 'pyflakes', 'pylint']
-"\}
 let g:ale_linters = {
 \	'python': ['pylint', 'flake8', 'pyflakes', 'pyls']
 \}
