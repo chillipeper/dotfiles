@@ -40,9 +40,6 @@ Plug 'airblade/vim-gitgutter'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
-" Nerd Tree -- Load on demmand
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -202,15 +199,18 @@ let g:ale_completion_enabled = 1
 " Python fixers
 let g:ale_fixers = {
 \  	'*': ['remove_trailing_lines', 'trim_whitespace'], 
-\	'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'black', 'yapf']
+\	'python': ['isort', 'add_blank_lines_for_python_control_statements', 'yapf']
 \}
 
+" 
+" 'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'black', 'yapf']
+"\	'python': ['autopep8', 'isort', 'add_blank_lines_for_python_control_statements', 'yapf']
 " Python linters which are necessary and work with large files
 "let g:ale_linters = {
 "\	'python': ['mypy', 'pycodestyle', 'pyflakes', 'pylint']
 "\}
 let g:ale_linters = {
-\	'python': ['pylint', 'flake8', 'pyflakes']
+\	'python': ['pylint', 'flake8', 'pyflakes', 'pyls']
 \}
 
 let g:ale_python_pyls_auto_pipenv = 1
@@ -221,6 +221,9 @@ inoremap <leader>af <esc>:ALEFix<cr>
 
 " --> Python Mode
 " ============================================================================
+" Enable python3
+let g:pymode_python = 'python3'
+
 " Enable syntax highlight
 let g:pymode_syntax = 1
 
