@@ -193,6 +193,10 @@ inoremap <leader>gc <esc>:Gcommit -m "
 
 " --> Ale
 " ============================================================================
+" :help ale-completion-completeopt-bug
+
+set completeopt=menu,menuone,preview,noselect,noinsert
+
 " Enable completition
 let g:ale_completion_enabled = 1
 
@@ -203,14 +207,31 @@ let g:ale_fixers = {
 \}
 
 let g:ale_linters = {
-\	'python': ['pylint', 'flake8', 'pyflakes', 'pyls']
+\	'python': ['pylint', 'flake8', 'pyls']
 \}
 
 let g:ale_python_pyls_auto_pipenv = 1
 
+" Disabling pylint, because pyls can't pick up yet pylintrc config
+" https://github.com/palantir/python-language-server/pull/538
+let g:ale_python_pyls_config = {
+\   	'pyls': { 
+\		'configurationSources': ['flake8'],
+\		'plugins': {
+\			'pylint': {
+\				'enabled': v:false
+\			}
+\		}
+\	}
+\}
+
 " Map ALEFix
 nnoremap <leader>af :ALEFix<cr>
 inoremap <leader>af <esc>:ALEFix<cr>
+
+" ALEinfo
+nnoremap <leader>ai :ALEInfo<cr>
+inoremap <leader>ai <esc>:ALEFix<cr>
 
 " --> Python Mode
 " ============================================================================
