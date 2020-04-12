@@ -27,10 +27,18 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " pymode
-Plug 'python-mode/python-mode'
+" Plug 'python-mode/python-mode'
+
+" vim-jedi
+Plug 'davidhalter/jedi-vim'
 
 " Ale
 Plug 'w0rp/ale'
+
+"Prettier 
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['css', 'json', 'yaml', 'html'] }
 
 " Git Integration
 Plug 'tpope/vim-fugitive'
@@ -47,7 +55,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Colorschemes
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-scripts/peaksea'
-
+ 
 " Vim Bash Support
 Plug 'vim-scripts/bash-support.vim'
 
@@ -123,15 +131,15 @@ set number
 set foldcolumn=1
 
 " Smart way to move between windows
-nnoremap <C-k> <C-W>k
-nnoremap <C-j> <C-W>j
-nnoremap <C-h> <C-W>h
-nnoremap <C-l> <C-W>l
-
-inoremap <C-j> <esc><C-W>j
-inoremap <C-k> <esc><C-W>k
-inoremap <C-h> <esc><C-W>h
-inoremap <C-l> <esc><C-W>l
+" nnoremap <C-k> <C-W>k
+" nnoremap <C-j> <C-W>j
+" nnoremap <C-h> <C-W>h
+" nnoremap <C-l> <C-W>l
+" 
+" inoremap <C-j> <esc><C-W>j
+" inoremap <C-k> <esc><C-W>k
+" inoremap <C-h> <esc><C-W>h
+" inoremap <C-l> <esc><C-W>l
 
 " Create a new tab
 nnoremap <leader>tt :tabnew<CR>
@@ -162,6 +170,12 @@ inoremap <leader>U <esc>viwUi
 " Convert current word to uppercase in normal mode
 nnoremap <leader>U <esc>viwU
 
+" Remove words that are under quotes and insert
+nnoremap <leader>r" <esc>T"vt"s
+
+" Remove words that are under quotes and insert
+nnoremap <leader>r' <esc>T'vt's
+
 " Fast saving
 nnoremap <leader>w :w!<cr>
 inoremap <leader>w <esc>:w!<cr>
@@ -191,39 +205,50 @@ inoremap <leader>gp <esc>:Gpush<cr>
 nnoremap <leader>gc :Gcommit -m "
 inoremap <leader>gc <esc>:Gcommit -m "
 
+" --> Autocommands
+" ============================================================================
+" set ruler for python files
+autocmd FileType python set colorcolumn=81
+
+" --> Jedi VIM
+" ============================================================================
+autocmd FileType python setlocal completeopt-=preview
+
 " --> Ale
 " ============================================================================
-" :help ale-completion-completeopt-bug
 
-set completeopt=menu,menuone,preview,noselect,noinsert
-
-" Enable completition
-let g:ale_completion_enabled = 1
+" " :help ale-completion-completeopt-bug
+" set completeopt=menu,menuone,noselect,noinsert
+" 
+" " Enable completition
+" let g:ale_completion_enabled = 1
 
 " Python fixers
 let g:ale_fixers = {
 \  	'*': ['remove_trailing_lines', 'trim_whitespace'], 
-\	'python': ['isort', 'add_blank_lines_for_python_control_statements', 'yapf']
+\	'python': ['isort', 'add_blank_lines_for_python_control_statements', 'yapf', "autopep8"],
+\       'yaml': ['prettier']
 \}
 
 let g:ale_linters = {
-\	'python': ['pylint', 'flake8', 'pyls']
+\	'python': ['pylint', 'flake8']
 \}
 
-let g:ale_python_pyls_auto_pipenv = 1
-
-" Disabling pylint, because pyls can't pick up yet pylintrc config
-" https://github.com/palantir/python-language-server/pull/538
-let g:ale_python_pyls_config = {
-\   	'pyls': { 
-\		'configurationSources': ['flake8'],
-\		'plugins': {
-\			'pylint': {
-\				'enabled': v:false
-\			}
-\		}
-\	}
-\}
+let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {max: 120}}}"'
+" let g:ale_python_pyls_auto_pipenv = 1
+" 
+" " Disabling pylint, because pyls can't pick up yet pylintrc config
+" " https://github.com/palantir/python-language-server/pull/538
+" let g:ale_python_pyls_config = {
+" \   	'pyls': { 
+" \		'configurationSources': ['flake8'],
+" \		'plugins': {
+" \			'pylint': {
+" \				'enabled': v:false
+" \			}
+" \		}
+" \	}
+" \}
 
 " Map ALEFix
 nnoremap <leader>af :ALEFix<cr>
@@ -233,34 +258,38 @@ inoremap <leader>af <esc>:ALEFix<cr>
 nnoremap <leader>ai :ALEInfo<cr>
 inoremap <leader>ai <esc>:ALEFix<cr>
 
+" " ALEDefinition
+" nnoremap <leader>ag :ALEGoToDefinitionInSplit<cr>
+" inoremap <leader>ag <esc>:ALEGoToDefinitionInSplit<cr>
+
 " --> Python Mode
 " ============================================================================
-" Enable python3
-let g:pymode_python = 'python3'
-
-" Enable syntax highlight
-let g:pymode_syntax = 1
-
-" Enable indentation pep8
-let g:pymode_indent = 1
-
-" Enable folding
-let g:pymode_folding = 1
-
-" Disable pymode-lint
-let g:pymode_lint = 0
-
-" Disable vim-motion
-let g:pymode_motion = 0
-
-" Disable rope completely
-let g:pymode_rope = 0
-
-" Disable trim whitespaces, already working with ALE
-let g:pymode_trim_whitespaces = 0
-
-" Disable pymode-virtualenv
-let g:pymode_virtualenv = 0
+" " Enable python3
+" let g:pymode_python = 'python3'
+" 
+" " Enable syntax highlight
+" let g:pymode_syntax = 1
+" 
+" " Enable indentation pep8
+" let g:pymode_indent = 1
+" 
+" " Enable folding
+" let g:pymode_folding = 1
+" 
+" " Disable pymode-lint
+" let g:pymode_lint = 0
+" 
+" " Disable vim-motion
+" let g:pymode_motion = 0
+" 
+" " Disable rope completely
+" let g:pymode_rope = 0
+" 
+" " Disable trim whitespaces, already working with ALE
+" let g:pymode_trim_whitespaces = 0
+" 
+" " Disable pymode-virtualenv
+" let g:pymode_virtualenv = 0
 
 " --> Vim Gutter
 " ============================================================================
@@ -293,3 +322,8 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
+"
+" --> Groovy syntax
+" ============================================================================
+" Checking if dictionary is defined and if not create it
+autocmd BufNewFile,BufRead Jenkinsfile setf groovy
