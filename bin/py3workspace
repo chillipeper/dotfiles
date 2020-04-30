@@ -13,6 +13,7 @@ VIRTUAL_ENV=$(pipenv --venv)
 create_tmux_session ()
 {
 	if [ -h "$BIN_DIR/create_tmux_session" ]; then
+		# By sourcing it, script imports variables from previous script
 		. $BIN_DIR/create_tmux_session
 	else
 		echo "Script can't continute, could not create or load tmux session"
@@ -76,7 +77,12 @@ init_tmux_workspace ()
 		tmux select-window -t vim
 	fi
 
-	tmux -2 attach -t $SESSION
+	if [ -z $TMUX ]; then
+		tmux -2 attach -t $SESSION
+	else
+		echo "You are already on a TMUX session: $TMUX"
+	fi
+
 }	# ----------  end of function init_workspace  ----------
 
 main ()
