@@ -14,16 +14,11 @@ done
 
 if [ "$SESSION_PRESENT" = false ]; then
 
-	if [ -z $TMUX ]; then
-		tmux -2 new-session -d -s $SESSION -n vim
-		tmux new-window -t $SESSION -a -n terminal
-		tmux split-window -v
-		tmux new-window -t $SESSION -a -n ssh_sessions
-		tmux split-window -v
-	else
-		echo "You are already on a TMUX session: $TMUX"
-		exit 1
-	fi
+	tmux -2 new-session -d -s $SESSION -n vim
+	tmux new-window -t $SESSION -a -n terminal
+	tmux split-window -t $SESSION -v
+	tmux new-window -t $SESSION -a -n ssh_sessions
+	tmux split-window -t $SESSION -v
 fi
 
 # Set name of tab in iTerm2 for base directory
