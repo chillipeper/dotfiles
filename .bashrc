@@ -39,10 +39,5 @@ alias ll='ls -l'
 export EDITOR="vim"
 
 # FZF keybindings
-if [ "$PLATFORM" = 'Darwin' ]; then
-	[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-elif [ "$PLATFORM" = 'Linux' ]; then
-	source /usr/share/doc/fzf/examples/key-bindings.bash
-	source /usr/share/doc/fzf/examples/completion.bash
-fi
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
