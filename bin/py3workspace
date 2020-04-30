@@ -49,7 +49,7 @@ load_pip_file ()
 install_virtual_env ()
 {
 	if [ -z "$VIRTUAL_ENV" ]; then
-		if [ ! -f "$PWD/PipFile" ]; then
+		if [ ! -f "$PWD/Pipfile" ]; then
 			load_pip_file
 		fi
 		pipenv install --dev
@@ -65,23 +65,25 @@ install_virtual_env ()
 init_tmux_workspace ()
 {
 	if [ "$SESSION_PRESENT" = false ]; then
-		tmux send-keys -t vim "pipenv shell" 'Enter'
+		tmux send-keys -t $SESSION:vim "pipenv shell" 'Enter'
 		sleep 1
-		tmux send-keys -t terminal.1 "pipenv shell" 'Enter'
+		tmux send-keys -t $SESSION:terminal.1 "pipenv shell" 'Enter'
 		sleep 1
-		tmux send-keys -t terminal.1 ipython 'Enter'
+		tmux send-keys -t $SESSION:terminal.1 ipython 'Enter'
 		sleep 1
-		tmux send-keys -t vim "vim $(fzf)" 'Enter'
+		tmux send-keys -t $SESSION:terminal.2 "pipenv shell" 'Enter'
+		sleep 1
+		tmux send-keys -t $SESSION:vim "vim $(fzf)" 'Enter'
 		sleep 1
 
-		tmux select-window -t vim
+		tmux select-window -t $SESSION:vim
 	fi
 
 	if [ -z $TMUX ]; then
 		tmux -2 attach -t $SESSION
 	else
 		echo "You are already on a TMUX session: $TMUX"
-		exit 1
+		echo "Use C-a s to switch session"
 	fi
 
 }	# ----------  end of function init_workspace  ----------
