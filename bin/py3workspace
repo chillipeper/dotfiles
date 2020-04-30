@@ -64,11 +64,14 @@ install_virtual_env ()
 init_tmux_workspace ()
 {
 	if [ "$SESSION_PRESENT" = false ]; then
-		tmux send-keys -t vim pipenv 'Space' shell 'Enter'
-		tmux send-keys -t terminal.1 pipenv 'Space' shell 'Enter'
+		tmux send-keys -t vim "pipenv shell" 'Enter'
+		sleep 1
+		tmux send-keys -t terminal.1 "pipenv shell" 'Enter'
 		sleep 1
 		tmux send-keys -t terminal.1 ipython 'Enter'
-		tmux send-keys -t vim vim 'Enter'
+		sleep 1
+		tmux send-keys -t vim "vim $(fzf)" 'Enter'
+		sleep 1
 
 		tmux select-window -t vim
 	fi
