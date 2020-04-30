@@ -81,6 +81,7 @@ init_tmux_workspace ()
 		tmux -2 attach -t $SESSION
 	else
 		echo "You are already on a TMUX session: $TMUX"
+		exit 1
 	fi
 
 }	# ----------  end of function init_workspace  ----------

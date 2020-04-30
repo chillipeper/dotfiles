@@ -5,6 +5,7 @@ SESSION=$(basename $PWD)
 EXISTING_SESSIONS=$(tmux list-sessions -F '#S')
 SESSION_PRESENT=false
 
+
 for s in $EXISTING_SESSIONS; do
     if [ "$s" == "$SESSION" ]; then
         SESSION_PRESENT=true
@@ -12,13 +13,18 @@ for s in $EXISTING_SESSIONS; do
 done
 
 if [ "$SESSION_PRESENT" = false ]; then
-    tmux -2 new-session -d -s $SESSION -n vim
-    tmux new-window -t $SESSION -a -n terminal
-    tmux split-window -v
-    tmux new-window -t $SESSION -a -n ssh_sessions
-    tmux split-window -v
+
+	if [ -z $TMUX ]; then
+		tmux -2 new-session -d -s $SESSION -n vim
+		tmux new-window -t $SESSION -a -n terminal
+		tmux split-window -v
+		tmux new-window -t $SESSION -a -n ssh_sessions
+		tmux split-window -v
+	else
+		echo "You are already on a TMUX session: $TMUX"
+		exit 1
+	fi
 fi
 
 # Set name of tab in iTerm2 for base directory
 echo -ne "\033];${PWD##*/}\007";
-
