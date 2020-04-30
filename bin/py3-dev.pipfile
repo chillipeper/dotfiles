@@ -10,17 +10,19 @@ pylint = "*"
 python-language-server = "*"
 rope = "*"
 yapf = "*"
-ipython = "*"
 pytest = "*"
 isort = "*"
 ansible-lint = "*"
 flake8 = "*"
 mccabe = "*"
 mypy = "*"
+autopep8 = "*"
+pyflakes = "*"
+pycodestyle = "*"
 vulture = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "*"
 
 [pipenv]
 allow_prereleases = true
