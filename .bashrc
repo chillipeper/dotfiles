@@ -23,7 +23,6 @@ fi
 # Alias
 #alias ls='ls --hide="*.pyc"'
 alias dotfiles='cd ~/repos/personal/dotfiles; py3workspace'
-alias books='cd ~/books'
 
 alias ..='cd ..'
 alias ...='cd ../..'
