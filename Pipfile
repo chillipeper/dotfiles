@@ -18,6 +18,7 @@ isort = "*"
 yapf = "*"
 python-language-server = "*"
 rope = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "*"
