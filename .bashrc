@@ -10,7 +10,7 @@ export PS1="\n\[\e[1;30m\][\[\e[0;37m\]$$:$PPID - \j:\!\[\e[1;30m\]]\[\e[0;36m\]
 export CLICOLOR=1
 
 #Add executables to path
-export PATH="$PATH:$HOME/.rvm/bin:$HOME/bin"
+export PATH="$PATH:$HOME/bin"
 
 #UTF-8
 export LANG=en_US.UTF-8
@@ -40,3 +40,10 @@ export EDITOR="vim"
 # FZF keybindings
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# pyenv 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
