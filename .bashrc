@@ -23,6 +23,7 @@ fi
 # Alias
 #alias ls='ls --hide="*.pyc"'
 alias dotfiles='cd ~/repos/personal/dotfiles; py3workspace'
+alias jupyterlab='cd ~/repos/personal/jupyterlab; pipenv run jupyter-lab'
 
 alias ..='cd ..'
 alias ...='cd ../..'
