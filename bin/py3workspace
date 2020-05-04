@@ -55,7 +55,7 @@ install_virtual_env ()
 		pipenv install --dev
 
 		# Eventually might need this kernel for jupyterlab
-		python -m ipykernel install --user --name=$(pipenv --venv | cut -d/ -f7)
+		pipenv run python -m ipykernel install --user --name=$(pipenv --venv | cut -d/ -f7)
 	fi
 }	# ----------  end of function install_virtual_env  ----------
 
@@ -85,8 +85,8 @@ init_tmux_workspace ()
 	if [ -z $TMUX ]; then
 		tmux -2 attach -t $SESSION
 	else
-		echo "You are already on a TMUX session: $TMUX"
-		echo "Use C-a s to switch $SESSION session"
+		echo "Switching to session -t $SESSION"
+		tmux -2 switch-client -t $SESSION
 	fi
 
 }	# ----------  end of function init_workspace  ----------
