@@ -130,7 +130,6 @@ nnoremap <silent> <F2> :<C-u>nohlsearch<CR><C-l>
 
 " Enable Solarized colorcheme
 syntax enable
-" let g:solarized_termcolors=256
 let g:solarized_termtrans = 1
 set background=dark
 colorscheme solarized
@@ -228,13 +227,13 @@ autocmd FileType python set colorcolumn=81
 " --> Deoplete nvim
 " ============================================================================
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#jedi#show_docstring = 1
 call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 
 " --> Jedi VIM
 " ============================================================================
 " Disable jedi completition if deoplete is enabled
 let g:jedi#completions_enabled = 0
-let g:deoplete#sources#jedi#show_docstring = 1
 
 " I don't want the docstring window to popup during completion
 " autocmd FileType python setlocal completeopt-=preview
@@ -283,7 +282,7 @@ inoremap <leader>af <esc>:ALEFix<cr>
 
 " ALEinfo
 nnoremap <leader>ai :ALEInfo<cr>
-inoremap <leader>ai <esc>:ALEFix<cr>
+inoremap <leader>ai <esc>:ALEInfo<cr>
 
 " " ALEDefinition
 " nnoremap <leader>ag :ALEGoToDefinitionInSplit<cr>
