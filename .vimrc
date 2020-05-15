@@ -26,9 +26,6 @@ endif
 " Begin vim-plug
 call plug#begin('~/.vim/plugged')
 
-" pymode
-" Plug 'python-mode/python-mode'
-
 " Ale
 Plug 'w0rp/ale'
 
@@ -291,35 +288,6 @@ inoremap <leader>ai <esc>:ALEFix<cr>
 " " ALEDefinition
 " nnoremap <leader>ag :ALEGoToDefinitionInSplit<cr>
 " inoremap <leader>ag <esc>:ALEGoToDefinitionInSplit<cr>
-
-" --> Python Mode
-" ============================================================================
-" " Enable python3
-" let g:pymode_python = 'python3'
-" 
-" " Enable syntax highlight
-" let g:pymode_syntax = 1
-" 
-" " Enable indentation pep8
-" let g:pymode_indent = 1
-" 
-" " Enable folding
-" let g:pymode_folding = 1
-" 
-" " Disable pymode-lint
-" let g:pymode_lint = 0
-" 
-" " Disable vim-motion
-" let g:pymode_motion = 0
-" 
-" " Disable rope completely
-" let g:pymode_rope = 0
-" 
-" " Disable trim whitespaces, already working with ALE
-" let g:pymode_trim_whitespaces = 0
-" 
-" " Disable pymode-virtualenv
-" let g:pymode_virtualenv = 0
 
 " --> Vim Gutter
 " ============================================================================
