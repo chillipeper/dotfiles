@@ -29,11 +29,26 @@ call plug#begin('~/.vim/plugged')
 " pymode
 " Plug 'python-mode/python-mode'
 
-" vim-jedi
-Plug 'davidhalter/jedi-vim'
-
 " Ale
 Plug 'w0rp/ale'
+
+" Deoplete VIM
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+" vim-jedi
+Plug 'davidhalter/jedi-vim'
+" Deoplete Jedi
+Plug 'deoplete-plugins/deoplete-jedi'
+
+" Golang
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 
 "Prettier 
 Plug 'prettier/vim-prettier', {
@@ -118,6 +133,8 @@ nnoremap <silent> <F2> :<C-u>nohlsearch<CR><C-l>
 
 " Enable Solarized colorcheme
 syntax enable
+" let g:solarized_termcolors=256
+let g:solarized_termtrans = 1
 set background=dark
 colorscheme solarized
 
@@ -211,17 +228,28 @@ inoremap <leader>gc <esc>:Gcommit -m "
 " set ruler for python files
 autocmd FileType python set colorcolumn=81
 
+" --> Deoplete nvim
+" ============================================================================
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
+
 " --> Jedi VIM
 " ============================================================================
-autocmd FileType python setlocal completeopt-=preview
+" Disable jedi completition if deoplete is enabled
+let g:jedi#completions_enabled = 0
+let g:deoplete#sources#jedi#show_docstring = 1
+
+" I don't want the docstring window to popup during completion
+" autocmd FileType python setlocal completeopt-=preview
+" autocmd FileType go setlocal completeopt-=preview
 
 " --> Ale
 " ============================================================================
 
-" " :help ale-completion-completeopt-bug
+" :help ale-completion-completeopt-bug
 " set completeopt=menu,menuone,noselect,noinsert
 " 
-" " Enable completition
+" Enable completition
 " let g:ale_completion_enabled = 1
 
 " Python fixers
@@ -236,6 +264,7 @@ let g:ale_linters = {
 \}
 
 let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {max: 120}}}"'
+
 " let g:ale_python_pyls_auto_pipenv = 1
 " 
 " " Disabling pylint, because pyls can't pick up yet pylintrc config
