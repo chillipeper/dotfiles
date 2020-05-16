@@ -19,6 +19,7 @@ yapf = "*"
 python-language-server = "*"
 rope = "*"
 ipykernel = "*"
+pynvim = "*"
 
 [requires]
 python_version = "*"

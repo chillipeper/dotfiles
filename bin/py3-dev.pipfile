@@ -19,6 +19,7 @@ pyflakes = "*"
 pycodestyle = "*"
 vulture = "*"
 ipykernel = "*"
+pynvim = "*"
 
 [requires]
 python_version = "*"
