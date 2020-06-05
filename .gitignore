@@ -2,3 +2,4 @@
 .pyre/
 .mypy_cache/
 Pipfile.lock
+.lvm_backup_vars
