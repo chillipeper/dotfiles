@@ -16,7 +16,7 @@ export CLICOLOR=1
 
 #Add executables to path
 # -------------
-export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/bin:$HOME/scripts"
 
 #UTF-8
 export LANG=en_US.UTF-8

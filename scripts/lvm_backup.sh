@@ -19,7 +19,7 @@
 
 set -o nounset                              # Treat unset variables as an error
 
-CONFIG_FILE=".lvm_backup_vars"
+CONFIG_FILE=~/.lvm_backup_vars
 
 load_env_vars ()
 {
@@ -30,17 +30,18 @@ load_env_vars ()
 		read -p "BACKUP_MOUNTPOINT: " BACKUP_MOUNTPOINT
 		read -p "VG to backup: " VG
 		read -p "Logical volumes to backup (space separated): " LVs
-		echo "BACKUP_MOUNTPOINT=$BACKUP_MOUNTPOINT" >> $CONFIG_FILE
-		echo "VG=$VG" >> $CONFIG_FILE
-		echo "LVs=$LVs" >> $CONFIG_FILE
 	fi
+
+	[ -z "$BACKUP_MOUNTPOINT" ] && echo "BACKUP_MOUNTPOINT variable not set!!" && exit 1
+	[ -z "$VG" ] && echo "VG variable not set!!" && exit 1
+	[ -z "$LVs" ] && echo "LVs variable not set!!" && exit 1
+
+	echo BACKUP_MOUNTPOINT=$BACKUP_MOUNTPOINT > $CONFIG_FILE
+	echo VG=$VG >> $CONFIG_FILE
+	echo LVs=\"$LVs\" >> $CONFIG_FILE
 }	# ----------  end of function load_env_vars  ----------
 
 load_env_vars
-
-[ -z "$BACKUP_MOUNTPOINT" ] && echo "BACKUP_MOUNTPOINT variable not set!!" && exit 1
-[ -z "$VG" ] && echo "VG variable not set!!" && exit 1
-[ -z "$LVs" ] && echo "LVs variable not set!!" && exit 1
 
 
 for lv in $LVs ; do

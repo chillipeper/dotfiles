@@ -11,7 +11,7 @@ HOME_DIR = os.environ['HOME']
 BACKUP_DIR = HOME_DIR + '/.backup_dotfiles'
 IGNORE_FILES = [
     '.git', '.gitignore', '.ropeproject', '.pyre', 'install.py', '.mypy_cache',
-    'Pipfile', 'Pipfile.lock', 'README.md', 'scripts'
+    'Pipfile', 'Pipfile.lock', 'README.md'
 ]
 
 
