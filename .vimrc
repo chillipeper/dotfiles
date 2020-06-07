@@ -109,24 +109,16 @@ filetype indent on
 " Set map leader
 let mapleader=","
 
-
-" --> Files, backups and undo
-" ============================================================================
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
+" Turn backup off, since most stuff is in git etc
 set nobackup
 set nowb
 set noswapfile
 
-" --> Colors and Fonts
-" ============================================================================
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
 " Highlit searches
 set hlsearch
-
-" Turn off hlsearch and map reset terminal
-nnoremap <silent> <F2> :<C-u>nohlsearch<CR><C-l>
 
 " Enable Solarized colorcheme
 syntax enable
@@ -134,8 +126,6 @@ let g:solarized_termtrans = 1
 set background=dark
 colorscheme solarized
 
-" --> Tabs, windows and buffers navigation
-" ============================================================================
 " Open splits to the right or below
 set splitbelow
 set splitright
@@ -143,6 +133,24 @@ set splitright
 " Line numbers, folding
 set number
 set foldcolumn=1
+
+" --> Autocommands
+" ============================================================================
+" set ruler for python files
+autocmd FileType python set colorcolumn=81
+
+" Groovy syntax
+" Checking if dictionary is defined and if not create it
+autocmd BufNewFile,BufRead Jenkinsfile setf groovy
+
+" I don't want the docstring window to popup during completion
+" autocmd FileType python setlocal completeopt-=preview
+" autocmd FileType go setlocal completeopt-=preview
+
+" --> Key mappings
+" ============================================================================
+" Turn off hlsearch and map reset terminal
+nnoremap <silent> <F2> :<C-u>nohlsearch<CR><C-l>
 
 " Smart way to move between windows
 " nnoremap <C-k> <C-W>k
@@ -155,11 +163,10 @@ set foldcolumn=1
 " inoremap <C-h> <esc><C-W>h
 " inoremap <C-l> <esc><C-W>l
 
-" Create a new tab
-nnoremap <leader>tt :tabnew<CR>
+" FZF as like ctrlp search
+nnoremap <C-p> :FZF<cr>
+inoremap <C-p> <esc>:FZF<cr>
 
-" --> Key mappings
-" ============================================================================
 " Open .vimrc on a split
 nnoremap <leader>ev :edit $MYVIMRC<cr>
 
@@ -171,6 +178,38 @@ nnoremap <leader>- ddp
 
 " Delete current line and paste it above the current one
 nnoremap <leader>+ dd2kp
+
+" ALEFix
+nnoremap <leader>af :ALEFix<cr>
+inoremap <leader>af <esc>:ALEFix<cr>
+
+" " ALEDefinition
+" nnoremap <leader>ag :ALEGoToDefinitionInSplit<cr>
+" inoremap <leader>ag <esc>:ALEGoToDefinitionInSplit<cr>
+
+" ALEinfo
+nnoremap <leader>ai :ALEInfo<cr>
+inoremap <leader>ai <esc>:ALEInfo<cr>
+
+" Git Add
+nnoremap <leader>ga :Git add %<cr>
+inoremap <leader>ga <esc>:Git add %<cr>
+
+" Git commit -m 
+nnoremap <leader>gc :Gcommit -m "
+inoremap <leader>gc <esc>:Gcommit -m "
+
+" Git diff current file
+nnoremap <leader>gf :Gdiff<cr>
+inoremap <leader>gf <esc>:Gdiff<cr>
+
+" Git push
+nnoremap <leader>gp :Gpush<cr>
+inoremap <leader>gp <esc>:Gpush<cr>
+
+" Git status
+nnoremap <leader>gs :Gstatus<cr>
+inoremap <leader>gs <esc>:Gstatus<cr>
 
 " Convert current word to lowercase in insert mode
 inoremap <leader>u <esc>viwui
@@ -190,39 +229,15 @@ nnoremap <leader>r" <esc>T"vt"s
 " Remove words that are under quotes and insert
 nnoremap <leader>r' <esc>T'vt's
 
+" Create a new tab
+nnoremap <leader>tt :tabnew<CR>
+
 " Fast saving
 nnoremap <leader>w :w!<cr>
 inoremap <leader>w <esc>:w!<cr>
 
 " Solarized colorscheme toggle
 call togglebg#map("<F6>")
-
-" -->  Fugitive
-" ============================================================================
-" Add the current working file to git
-nnoremap <leader>ga :Git add %<cr>
-inoremap <leader>ga <esc>:Git add %<cr>
-
-" Git status
-nnoremap <leader>gs :Gstatus<cr>
-inoremap <leader>gs <esc>:Gstatus<cr>
-
-" Git diff current file
-nnoremap <leader>gf :Gdiff<cr>
-inoremap <leader>gf <esc>:Gdiff<cr>
-
-" Git push
-nnoremap <leader>gp :Gpush<cr>
-inoremap <leader>gp <esc>:Gpush<cr>
-
-" Git commit -m 
-nnoremap <leader>gc :Gcommit -m "
-inoremap <leader>gc <esc>:Gcommit -m "
-
-" --> Autocommands
-" ============================================================================
-" set ruler for python files
-autocmd FileType python set colorcolumn=81
 
 " --> Deoplete nvim
 " ============================================================================
@@ -235,9 +250,6 @@ call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 " Disable jedi completition if deoplete is enabled
 let g:jedi#completions_enabled = 0
 
-" I don't want the docstring window to popup during completion
-" autocmd FileType python setlocal completeopt-=preview
-" autocmd FileType go setlocal completeopt-=preview
 
 " --> Ale
 " ============================================================================
@@ -276,18 +288,6 @@ let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {
 " \	}
 " \}
 
-" Map ALEFix
-nnoremap <leader>af :ALEFix<cr>
-inoremap <leader>af <esc>:ALEFix<cr>
-
-" ALEinfo
-nnoremap <leader>ai :ALEInfo<cr>
-inoremap <leader>ai <esc>:ALEInfo<cr>
-
-" " ALEDefinition
-" nnoremap <leader>ag :ALEGoToDefinitionInSplit<cr>
-" inoremap <leader>ag <esc>:ALEGoToDefinitionInSplit<cr>
-
 " --> Vim Gutter
 " ============================================================================
 " Enable python YCMinterpreter if VIRTUAL_ENV exists
@@ -295,10 +295,6 @@ inoremap <leader>ai <esc>:ALEInfo<cr>
 
 " --> FZF Finder
 " ============================================================================
-" Map search like ctrlp search
-nnoremap <C-p> :FZF<cr>
-inoremap <C-p> <esc>:FZF<cr>
-
 let g:fzf_layout = { 'down': '~20%' }
 
 " --> Airline
@@ -320,7 +316,3 @@ let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
 "
-" --> Groovy syntax
-" ============================================================================
-" Checking if dictionary is defined and if not create it
-autocmd BufNewFile,BufRead Jenkinsfile setf groovy
