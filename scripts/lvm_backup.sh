@@ -20,6 +20,7 @@
 set -o nounset                              # Treat unset variables as an error
 
 CONFIG_FILE=~/.lvm_backup_vars
+SNAPSHOT_MOUNTPOINT=/mnt
 
 load_env_vars ()
 {
@@ -32,22 +33,46 @@ load_env_vars ()
 		read -p "Logical volumes to backup (space separated): " LVs
 	fi
 
+	# Validations
 	[ -z "$BACKUP_MOUNTPOINT" ] && echo "BACKUP_MOUNTPOINT variable not set!!" && exit 1
 	[ -z "$VG" ] && echo "VG variable not set!!" && exit 1
 	[ -z "$LVs" ] && echo "LVs variable not set!!" && exit 1
+	[ ! -d "$BACKUP_MOUNTPOINT" ] && echo "$BACKUP_MOUNTPOINT not available!!!" && exit 1
 
-	echo BACKUP_MOUNTPOINT=$BACKUP_MOUNTPOINT > $CONFIG_FILE
-	echo VG=$VG >> $CONFIG_FILE
-	echo LVs=\"$LVs\" >> $CONFIG_FILE
+
+
+	if [ -z "$CONFIG_FILE" ]; then
+		echo BACKUP_MOUNTPOINT=$BACKUP_MOUNTPOINT > $CONFIG_FILE
+		echo VG=$VG >> $CONFIG_FILE
+		echo LVs=\"$LVs\" >> $CONFIG_FILE
+	fi
+
 }	# ----------  end of function load_env_vars  ----------
 
 load_env_vars
 
 
+
 for lv in $LVs ; do
-	sudo lvcreate -L5G -s -n $lv-snapshot /dev/$VG/$lv
-	sudo mount /dev/$VG/$lv-snapshot /mnt
-	sudo dd if=/dev/$VG/$lv-snapshot of=$BACKUP_MOUNTPOINT/$lv.$(date +%F-%H:%M).dd status=progress
-	sudo umount /mnt
-	sudo lvremove -y /dev/$VG/$lv-snapshot
+	LV_PATH=/dev/$VG/$lv
+	SNAPSHOT_LV_PATH=/dev/$VG/$lv-snapshot
+
+	# Verify if snapshot lv exists and if it is mounted
+	if $(sudo lvs $SNAPSHOT_LV_PATH > /dev/null 2>&1) ; then
+		mountpoint=$(findmnt -n /dev/linux-vg/ubuntu-root-lv-snapshot | awk '{print $1}' 2> /dev/null)
+		if [ "$mountpoint" ]; then
+			echo -e "$SNAPSHOT_LV_PATH is currently mounted on $mountpoint"
+			echo -e "Umounting $mountpoint"
+			sudo umount $mountpoint || exit 1
+		fi
+		echo -e "$SNAPSHOT_LV_PATH is already created, removing before backup"
+		sudo lvremove -y $SNAPSHOT_LV_PATH || exit 1
+	fi
+
+	echo -e "Starting backup:"
+	sudo lvcreate -L5G -s -n $lv-snapshot $LV_PATH
+	sudo mount $SNAPSHOT_LV_PATH $SNAPSHOT_MOUNTPOINT
+	sudo dd if=$SNAPSHOT_LV_PATH of=$BACKUP_MOUNTPOINT/$lv.$(date +%F-%H:%M).dd status=progress
+	sudo umount $SNAPSHOT_MOUNTPOINT
+	sudo lvremove -y $SNAPSHOT_LV_PATH
 done
