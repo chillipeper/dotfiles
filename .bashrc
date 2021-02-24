@@ -68,6 +68,10 @@ alias lt='ls -lrt'
 
 export EDITOR="vim"
 
+# Load functions
+# -------------
+[ -f ~/.funcs ]; source ~/bin/.funcs
+
 # FZF keybindings
 # -------------
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -148,3 +152,4 @@ gp() {
 gg() {
   _z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info --tac | sed 's/^[0-9,.]* *//'
 }
+
