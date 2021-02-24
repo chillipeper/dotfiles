@@ -70,7 +70,7 @@ export EDITOR="vim"
 
 # Load functions
 # -------------
-[ -f ~/.funcs ]; source ~/bin/.funcs
+[ -f ~/bin/.funcs ] && source ~/bin/.funcs
 
 # FZF keybindings
 # -------------
