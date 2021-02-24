@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SESSION=$(basename $PWD)
+SESSION=$1
 
 EXISTING_SESSIONS=$(tmux list-sessions -F '#S')
 SESSION_PRESENT=false
@@ -14,12 +14,11 @@ done
 
 if [ "$SESSION_PRESENT" = false ]; then
 
-	tmux -2 new-session -d -s $SESSION -n vim
-	tmux new-window -t $SESSION -a -n terminal
-	tmux split-window -t $SESSION -v
-	tmux new-window -t $SESSION -a -n ssh_sessions
-	tmux split-window -t $SESSION -v
+	tmux -2 new-session -d -s $SESSION
+else
+	echo "Session $SESSION already exists"
 fi
+
 
 # Set name of tab in iTerm2 for base directory
 echo -ne "\033];${PWD##*/}\007";
