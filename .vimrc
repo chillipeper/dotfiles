@@ -50,6 +50,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Prettier 
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
+  \ 'branch': 'release/1.x',
   \ 'for': ['css', 'json', 'yaml', 'html'] }
 
 " Git Integration
@@ -80,7 +81,13 @@ Plug 'plasticboy/vim-markdown'
 Plug 'pearofducks/ansible-vim'
 
 " Markdown Preview
-Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+
+" Obsession --> use vim save sessions to restore tmux sessions
+Plug 'tpope/vim-obsession'
+
+" Vim Ruby
+Plug 'vim-ruby/vim-ruby'
 
 " End vim-plug
 call plug#end()
@@ -120,9 +127,9 @@ set encoding=utf8
 " Highlit searches
 set hlsearch
 
-" Enable Solarized colorcheme
+" Enable Solarized colorscheme
 syntax enable
-let g:solarized_termtrans = 1
+" let g:solarized_termtrans = 1
 set background=dark
 colorscheme solarized
 
@@ -134,8 +141,33 @@ set splitright
 set number
 set foldcolumn=1
 
+" Try out ident folding
+set foldmethod=indent
+nnoremap <space> za
+vnoremap <space> zf
+
+" 
+set autowrite
+
 " --> Autocommands
 " ============================================================================
+" go-vim 
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+	let l:file = expand('%')
+	if l:file =~# '^\f\+_test\.go$'
+        	call go#test#Test(0, 1)
+        elseif l:file =~# '^\f\+\.go$'
+                call go#cmd#Build(0)
+        endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
 " set ruler for python files
 autocmd FileType python set colorcolumn=81
 
@@ -145,7 +177,7 @@ autocmd BufNewFile,BufRead Jenkinsfile setf groovy
 
 " I don't want the docstring window to popup during completion
 " autocmd FileType python setlocal completeopt-=preview
-" autocmd FileType go setlocal completeopt-=preview
+autocmd FileType go setlocal completeopt=menu,noselect,preview
 
 " --> Key mappings
 " ============================================================================
@@ -163,6 +195,10 @@ nnoremap <silent> <F2> :<C-u>nohlsearch<CR><C-l>
 " inoremap <C-h> <esc><C-W>h
 " inoremap <C-l> <esc><C-W>l
 
+" Display errors more friendly way
+map <C-m> :cprevious<CR>
+map <C-n> :cnext<CR>
+
 " FZF as like ctrlp search
 nnoremap <C-p> :FZF<cr>
 inoremap <C-p> <esc>:FZF<cr>
@@ -178,6 +214,9 @@ nnoremap <leader>- ddp
 
 " Delete current line and paste it above the current one
 nnoremap <leader>+ dd2kp
+
+" Close error window
+nnoremap <leader>a :cclose<CR>
 
 " ALEFix
 nnoremap <leader>af :ALEFix<cr>
@@ -263,8 +302,9 @@ let g:jedi#completions_enabled = 0
 " Python fixers
 let g:ale_fixers = {
 \  	'*': ['remove_trailing_lines', 'trim_whitespace'], 
-\	'python': ['isort', 'add_blank_lines_for_python_control_statements', 'yapf', "autopep8"],
-\       'yaml': ['prettier']
+\	'python': ['isort', 'add_blank_lines_for_python_control_statements', "black"],
+\       'yaml': ['prettier'],
+\       'json': ['prettier']
 \}
 
 let g:ale_linters = {
@@ -287,7 +327,7 @@ let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {
 " \		}
 " \	}
 " \}
-
+"
 " --> Vim Gutter
 " ============================================================================
 " Enable python YCMinterpreter if VIRTUAL_ENV exists
