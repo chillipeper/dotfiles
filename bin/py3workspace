@@ -2,6 +2,7 @@
 
 BIN_DIR=$(dirname $(echo $0))
 VIRTUAL_ENV=$(pipenv --venv)
+SESSION=$(basename $PWD)
 
 
 #---  FUNCTION  ----------------------------------------------------------------
@@ -14,7 +15,7 @@ create_tmux_session ()
 {
 	if [ -h "$BIN_DIR/create_tmux_session" ]; then
 		# By sourcing it, script imports variables from previous script
-		. $BIN_DIR/create_tmux_session
+		. $BIN_DIR/create_tmux_session $SESSION
 	else
 		echo "Script can't continute, could not create or load tmux session"
 		exit 1
@@ -35,7 +36,7 @@ load_pip_file ()
 		echo "Script can't continute, could not find py3 development pipfile"
 		exit 1
 	fi
-	
+
 }	# ----------  end of function load_pip_file  ----------
 
 
@@ -43,7 +44,7 @@ load_pip_file ()
 #          NAME: install_virtual_env
 #   DESCRIPTION: Install virtual env if not pressent
 #    PARAMETERS: None
-#       RETURNS: None 
+#       RETURNS: None
 #-------------------------------------------------------------------------------
 
 install_virtual_env ()
@@ -68,6 +69,11 @@ install_virtual_env ()
 init_tmux_workspace ()
 {
 	if [ "$SESSION_PRESENT" = false ]; then
+		tmux rename-window -t $SESSION:1 vim
+		tmux new-window -t $SESSION -a -n terminal
+		tmux split-window -t $SESSION -v
+		tmux new-window -t $SESSION -a -n ssh_sessions
+		tmux split-window -t $SESSION -v
 		tmux send-keys -t $SESSION:vim "pipenv shell" 'Enter'
 		sleep 1
 		tmux send-keys -t $SESSION:terminal.1 "pipenv shell" 'Enter'
@@ -78,17 +84,17 @@ init_tmux_workspace ()
 		sleep 1
 		tmux send-keys -t $SESSION:vim "vim $(fzf)" 'Enter'
 		sleep 1
-
 		tmux select-window -t $SESSION:vim
 	fi
 
+
+	# We use $TMUX to identify if we are on a tmux session already or not
 	if [ -z $TMUX ]; then
 		tmux -2 attach -t $SESSION
 	else
 		echo "Switching to session -t $SESSION"
 		tmux -2 switch-client -t $SESSION
 	fi
-
 }	# ----------  end of function init_workspace  ----------
 
 main ()
