@@ -72,17 +72,14 @@ init_tmux_workspace ()
 		tmux rename-window -t $SESSION:1 vim
 		tmux new-window -t $SESSION -a -n terminal
 		tmux split-window -t $SESSION -v
-		tmux new-window -t $SESSION -a -n ssh_sessions
-		tmux split-window -t $SESSION -v
-		tmux send-keys -t $SESSION:vim "pipenv shell" 'Enter'
+		tmux split-window -t $SESSION -h
+		tmux send-keys -t $SESSION:terminal.1 "/usr/bin/python3 /usr/bin/pipenv run $(pipenv --venv)/bin/ipython" 'Enter'
 		sleep 1
-		tmux send-keys -t $SESSION:terminal.1 "pipenv shell" 'Enter'
+		tmux send-keys -t $SESSION:terminal.2 "/usr/bin/python3 /usr/bin/pipenv shell" 'Enter'
 		sleep 1
-		tmux send-keys -t $SESSION:terminal.1 ipython 'Enter'
+		tmux send-keys -t $SESSION:terminal.3 "/usr/bin/python3 /usr/bin/pipenv shell" 'Enter'
 		sleep 1
-		tmux send-keys -t $SESSION:terminal.2 "pipenv shell" 'Enter'
-		sleep 1
-		tmux send-keys -t $SESSION:vim "vim $(fzf)" 'Enter'
+		tmux send-keys -t $SESSION:vim "/usr/bin/python3 /usr/bin/pipenv run /usr/bin/vim $(fzf)" 'Enter'
 		sleep 1
 		tmux select-window -t $SESSION:vim
 	fi
